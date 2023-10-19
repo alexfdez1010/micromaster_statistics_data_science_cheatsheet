@@ -13,18 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Build PDFs
     - uses: xu-cheng/latex-action@v3
       with:
         root_file: |
           statistics.tex
           probability.tex
           ml.tex
-
-    - name: Build PDFs
-      run: |
-        pdflatex statistics.tex
-        pdflatex probability.tex
-        pdflatex ml.tex
 
     - name: Create Release
       id: create_release
