@@ -1,0 +1,36 @@
+name: Build and Release PDFs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release-pdfs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up LaTeX
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: main.tex # Change this to your main LaTeX file if needed
+
+    - name: Build PDFs
+      run: |
+        pdflatex statistics.tex
+        pdflatex probability.tex
+        pdflatex ml.tex
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files:
+          - statistics.pdf
+          - probability.pdf
+          - ml.pdf
+        token: ${{ secrets.GITHUB_TOKEN }}
+
