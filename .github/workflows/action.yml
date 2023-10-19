@@ -22,12 +22,10 @@ jobs:
           ml.tex
 
     - name: Create Release
-      id: create_release
-      uses: softprops/action-gh-release@v1
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{github.ref_name}}
-        files: |
-          statistics.pdf
-          probability.pdf
-          ml.pdf
-        token: ${{ secrets.GITHUB_TOKEN }}
+        file: "*.pdf"
+        tags: false
+        draft: false
