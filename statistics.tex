@@ -1,0 +1,422 @@
+\documentclass{beamer}
+\usetheme{Copenhagen}
+\usepackage[orientation=landscape,size=a4,scale=0.7]{beamerposter}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{ccicons}
+
+\DeclareUnicodeCharacter{2005}{\hspace{0em}}
+
+\title{Statistics cheatsheet - MITx Micromaster in Statistics and Data Science}
+\author{Alejandro Fernández Camello}
+\date{\vspace{-100pt}}
+
+\setbeamertemplate{navigation symbols}{}
+\usecolortheme[named=red]{structure}
+
+\begin{document}
+\begin{frame}
+
+\maketitle
+
+\begin{columns}
+
+\begin{column}{0.3\textwidth}
+\begin{block}{Statistical model}
+
+Let the observed outcome of a statistical experiment be a sample $X1, . . . , Xn$ of $n$ i.i.d. random variables in some measurable space $E$ and denote by IP their common distribution. A statistical model associated to that statistical experiment is a pair
+
+\begin{align*}
+    (E, (\mathbb{P}_\theta)\theta \in \Theta)
+\end{align*}
+
+where:
+
+\begin{itemize}
+    \item $E$ is the sample space
+    \item $(\mathbb{P}_\theta)\theta \in \Theta$ is a family of probability measures on $E$
+    \item $\Theta$ is the parameter set
+\end{itemize}
+
+If the number of parameters is finite, it's called a parametric statistical model. Otherwise, it can be semiparametric (some part parametric and the other nonparametric) and nonparametric (doesn't assume anything about the underlying distribution).
+    
+\end{block}
+
+\begin{block}{Estimation}
+
+An estimator of $\theta$ is any statistic (any measurable function of the sample) that doesn't depend of $\theta$. An estimator $\hat{\theta}_n$ of $theta$ is asymptotically normal if
+
+\begin{align*}
+    \sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow[n \to \infty]{(d)} \mathcal{N}(0, \sigma^2)
+\end{align*}
+
+The bias of an estimator is (if the bias is 0 then the estimator is unbiased):
+
+\begin{align*}
+    \text{bias}(\hat{\theta}_n) = \mathbb{E}[\hat{\theta}_n] - \theta
+\end{align*}
+
+The variance of an estimator is defined in the same way as any random variable. The quadratic risk is defined as bias² + variance. The goal is to minimize it to have a good estimator. The two principal methods of estimation are MLE (Maximum Likelihood Estimator) and moments. The MLE is the parameter/parameters that maximized the likelihood function for a sample $x_1, \ldots, x_n$ defined in the following way:
+
+\begin{align*}
+    L(x_1, \ldots, x_n; \theta) = \prod_{i=1}^n P_\theta(x_i)
+\end{align*}
+
+To find the maximum of the function is usually take the log of the previous function to simplify the calculations. The Fisher information is defined as:
+
+\begin{align*}
+    I(\theta) = Var(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]
+\end{align*}
+
+Under some general conditions the MLE follows the following conditions:
+
+\begin{align*}
+    \hat{\theta}_n \xrightarrow[n \to \infty]{P} \theta^* \text{ w.r.t } P_{\theta^*}
+\end{align*}
+
+\begin{align*}
+    \sqrt{n}(\hat{\theta}_n - \theta^*) \xrightarrow[n \to \infty]{(d)} \mathcal{N}(0, I(\theta^*)^{-1}) \text{ w.r.t } P_{\theta^*}
+\end{align*}
+
+For the methods of moments, the $k$-moments are used for computing the parameter or parameters of the model. The $k$-moment ($m_k$) is defined as: 
+
+\begin{align*}
+    m_k = \mathbb{E}[X^k]
+\end{align*}
+
+To calculate moments, the Moment Generating Function is used, which is defined as $M_X(t) = \mathbb{E}[e^{tX}]$, where $t$ is a real constant. This function provides the $k^{th}$ moment $m_k$ when differentiated $k$ times with respect to $t$ and evaluated at $t=0$. Once the moments are computed, relationships between these moments and the distribution parameters can be established to ultimately calculate the parameters.
+
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Limit theorems}
+
+\textbf{Markov inequality}
+
+If a random variable $X$ cannot take negative values, then
+
+\begin{align*}
+    P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}, \forall a > 0
+\end{align*}
+
+\textbf{Chebyshev inequality}
+
+If a random variable $X$ with mean $\mu$ and variance $\sigma$, then
+
+\begin{align*}
+    P(|X - \mu| \geq c) \leq \frac{\sigma^2}{c^2}, \forall c > 0
+\end{align*}
+
+\textbf{The weak law of large numbers}
+
+Let $X_i$ be $n$ i.i.d random variables with mean $\mu$. For every $\epsilon > 0$, we have:
+
+\begin{align*}
+    P\left(\abs{\frac{\sum_i^n X_i}{n} - \mu} \geq \epsilon\right) \to 0, \text{as }  n \to \infty
+\end{align*}
+
+\textbf{The strong law of large numbers}
+
+Let $X_i$ be $n$ i.i.d random variables with mean $\mu$, we have:
+
+\begin{align*}
+    P\left( \lim_{n \to \infty} \frac{\sum_i^n X_i}{n} = \mu\right) = 1
+\end{align*}
+
+\textbf{Central limit theorem}
+
+Let $X_1, X_2, \ldots$ be a sequence of i.i.d. random variables with mean $\mu$ and finite variance $\sigma^2$. Then:
+
+\begin{align*}
+    \lim_{n \to \infty} \frac{1}{\sigma\sqrt{n}} \sum_{i=1}^{n} \left( X_i - \mu \right) \xrightarrow{(d)} \mathcal{N}(0, 1).
+\end{align*}
+
+\end{block}
+
+\begin{block}{Convergence theorems}
+
+\textbf{Almost surely convergence}
+
+A sequence of random variables $X_1, X_2, \ldots$ converges almost surely (a.s.) to $X$ if 
+
+\begin{align*}
+  P\left( \lim_{n \to \infty} X_n = X \right) = 1  
+\end{align*}
+
+\textbf{Convergence in probability}
+
+A sequence of random variables $X_1, X_2, \ldots$ converges in probability to \(X\) if for every $\epsilon > 0$,
+
+\begin{align*}
+   \lim_{n \to \infty} P(|X_n - X| > \epsilon) = 0 
+\end{align*}
+
+\textbf{Convergence in distribution}
+
+A sequence of random variables $X_1, X_2, \ldots$ converges in distribution to $X$ if 
+
+\begin{align*}
+    \lim_{n \to \infty} F_{X_n}(x) = F_X(x)
+\end{align*}
+
+for all $x$ at which \(F_X(x)\) is continuous, where $F_{X_n}(x)$and $F_X(x)$ are the cumulative distribution functions of $X_n$ and $X$, respectively.
+
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Confidence interval}
+
+A Confidence interval of level $1-\alpha$ for a $\theta$ is any random interval $\mathcal{I}$ whose boundaries doesn't depend of $\theta$ and
+
+\begin{align*}
+    P_\theta[\theta \in \mathcal{I}] \geq 1 - \alpha, \forall \theta \in \Theta
+\end{align*}
+
+Additionally, is asymptotic if
+
+\begin{align*}
+    \lim_{n \to \infty} P_\theta[\theta \in \mathcal{I}] \geq 1 - \alpha, \forall \theta \in \Theta
+\end{align*}
+
+The confidence interval when the parameter to estimate is equal to the mean is the following:
+
+\begin{align*}
+    CI = \left( \bar{x} - q_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \bar{x} + q_{\alpha/2} \frac{\sigma}{\sqrt{n}} \right)
+\end{align*}
+
+Where $\bar{x}$ is the sample mean, $q_{\alpha/2}$ is the $(1 - \alpha/2)$-th quantile of the normal distribution, $\sigma$ is the standard deviation (can be computed in three different ways conservative, solve and plug-in) and $n$ is the number of samples. The Delta method allow to compute the parameters that are a function $g(x)$ to respect to the mean. The function must satisfy that it is continuously differentiable at the point $\theta$ and be $g(\bar{x})$ asymptotically normal. The result that gives the Delta method is:
+
+\begin{align*}
+    \sqrt{n}(g(\bar{x}) - g(\theta)) \xrightarrow[n \to \infty]{(d)} \mathcal{N}(0, g'(\theta)^2 \sigma^2)
+\end{align*}
+   
+\end{block}
+
+\begin{block}{Hypothesis testing}
+
+Parametric hypothesis testing provides a binary (yes/no) response regarding whether a given parameter or set of parameters falls within a specific interval. This involves formulating two hypotheses: the null hypothesis, denoted as $H_0$, and the alternative hypothesis, denoted as $H_1$. The objective is to evaluate $H_0$ in the context of $H_1$. Only two outcomes are possible: either the null hypothesis is retained (representing the status quo) or it is rejected, which can be interpreted as a ''discovery''. Each hypothesis corresponds to a particular parameter space or a set of statistic models.
+
+When doing hypothesis testing two type of error can be made.
+
+\begin{itemize}
+    \item Type I error: If we reject the hypothesis $H_0$ being it true.
+    \item Type II error: If we don't reject the hypothesis $H_0$ being it false.
+\end{itemize}
+
+The power function allows to compute both errors, it is defined in the following way:
+
+\begin{align*}
+    \beta(\theta) = P_\theta[\psi = 1]
+\end{align*}
+
+Where $\psi$ is the test statistic that can take value 0 or 1, if 0 the null hypothesis is not rejected and if 1 reject the null hypothesis. Using the Neyman-Pearson paradigm the goal is to have the type I error below or equal to a value $alpha$ and the type error is minimized according to the previous constraint. The (asymptotic) p-value of a test $\psi$ is the smallest (also asymptotic) level $\alpha$ that reduces at which $\psi$ reject $H_0$. The p-value is used as a metric how much evidence is against the null hypothesis and whether we must reject or not it. The ranges of p-values used for that aim is the following:
+
+\begin{itemize}
+    \item $>0.1$: Almost none evidence
+    \item $[0.05, 0.1]$: Weak evidence
+    \item $[0.05, 0.01]$: Strong evidence
+    \item $[0.01, 0.001]$: Very strong evidence
+    \item $>0.001$: Indisputable evidence
+\end{itemize}
+
+\end{block} 
+
+\begin{block}{References}
+    \begin{itemize}
+        \item Wasserman, Larry. \textit{All of statistics: a concise course in statistical inference.} Vol. 26. New York: Springer, 2004.
+        \item Notes of \textit{18.650 - Fundamentals of Statistics} offer by MITx in the year 2023.
+    \end{itemize}
+\end{block}
+
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Parametric hypothesis testing}
+
+There are several tests that can be used according to the circumstances. The most important are Wald test, likelihood test and t-test. When computing the p-values we can have two types of test: one-sided and two-sided. If it is two-sided the p value obtained should be divided by 2. The rest is the same for the two type of test.
+
+\textbf{Wald test}: Used when we have a large sample. Based in confidence intervals. Thus, the test statistics is:
+
+\begin{align*}
+    W = \frac{\hat{\theta} - \theta_0}{\sqrt{\hat{var}(\hat{\theta})}}
+\end{align*}
+
+Where $\hat{\theta}$ and $\hat{var}(\hat{\theta})$ are the estimated parameter and $\sigma^2/n$ where $\sigma^2$ is the variance of distribution according to the parameter estimated and $n$ the number of samples. $\theta_0$ is the parameter value of the null hypothesis. The test statistics follows a standard normal distribution. If we want to use this test to compare the mean of two distribution the mean is substitute by the difference of the means, the null hypothesis is 0 and the estimator of the variance is the sum of the variances of the two distributions compared. This test has a squared version. In this version we squared the test statistic and it will follow a $\chi^2_1$ distribution.
+\newline
+
+\textbf{Likelihood test}: Compare the likelihood of the null hypothesis and the MLE. Its definition is the following:
+
+\begin{align*}
+    T = 2(\ln{L_1} - \ln{L_0})
+\end{align*}
+
+Where $L_1$ is the likelihood with the MLE and $L_0$ with the null hypothesis. Follows a $\chi^2_k$ where $k$ is the difference between the dimensions (number of parameters) of the MLE estimator and the null hypothesis. If it is used for compare between only one parameter $k=1$.
+\newline
+
+\textbf{T-test}: Used when the sample is small ($n < 30$) and we know that follows a normal distribution. It is non-asymptotic. Its statistic is defined in the following way:
+
+\begin{align*}
+    T = \sqrt{n} \frac{\hat{\mu} - \mu_0}{\sqrt{S^2_n}}
+\end{align*}
+
+Where $\hat{\mu}$ is the estimator/mean of the normal distribution, $\mu_0$ the null hypothesis, $S^2_n$ is the unbiased estimator of the variance and $n$ the number of examples. Follows a $t_{n-1}$ distribution.
+\newline
+
+When we are doing multiple hypothesis testing we must take care of rejecting the null hypothesis when they are true That happens because with an $\alpha$ we are going to have in average $n*\alpha$ errors. For that reason, we must apply some corrections. The two methods more used are Bonferroni correction and Benjamini-Hochberg method. 
+\newline
+The Bonferroni method get the new threshold dividing $\alpha$ by the number of tests. With that we got the same error probability as if we were doing only one text. The problem is that it is too conservative.
+\newline
+The Benjamini-Hochberg method is the default choice for solving this problem. The method consists in the following steps: 
+
+\begin{enumerate}
+    \item Order the p-values of the test realized in ascending order.
+    \item Find the greatest p-value that fulfills $i \frac{\alpha}{n}$. Where $i$ is the rank given by the ordering, $\alpha$ the original threshold and $n$ the number of tests.
+    \item After finding this p-value we reject the null hypothesis with a p-value lower including itself. 
+\end{enumerate}
+
+\end{block} 
+
+\begin{block}{License}
+This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International}. \ccbyncsa
+\end{block}
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Nonparametric hypothesis testing}
+
+For discrete distributions the test used is the $\chi^2$ test. The statistic of this test is the following:
+
+\begin{align*}
+    T = n * \sum_{j=1}^k \frac{(\hat{p}_j - p^0_j)^2}{p^0_j}
+\end{align*}
+
+Where $\hat{p}_j$ is the MLE estimator and $p^0_j$ the null hypothesis value for the $j$-class. This test follows a $\chi^2_{k-1}$ distribution. For continuous distribution the task is not so trivial. The tests used are known as goodness of fit and allows to check if a sample follows a specify distribution. Two of the most popular are Kolmogorov-Smirnov and Kolmogorov-Lilliefors tests. \newline \newline
+The Kolmogorov-Smirnov tests allows to check if the sample can follow a specify distribution. For that aim, compares the CDF of both distributions. The test statistic is the following:
+
+\begin{align*}
+    T = \max_{i=1}^{n} \left\{ \max \left( \left| \frac{i-1}{n} - F^0(X_i) \right|, \left| \frac{i}{n} - F^0(X_i) \right| \right) \right\}
+\end{align*}
+
+Where $X_i$ are the values of the sample sorted in ascending ordering and $F_0$ if the CDF of the distribution that we are trying to determine if it can have generated the sample. To reject the null hypothesis the value obtained must be higher that the value provided by the Kolmogorov-Smirnov table. The problem of this test is that usually we do not have the parameters of the distribution. \newline \newline Kolmogorov-Lilliefors works in a similar fashion that the previous test, but can be used without knowing the parameters. These parameters will be estimated from the data. The process is the same as the previous test, but now we have to look up in the Kolmogorov-Lilliefors table. \newline \newline
+Finally, a popular tool to perform visual GoF tests are the QQ-plots. The idea is to put the CDFs (null hypothesis and empirical) in a two dimensional space where the x coordinates correspond to the CDF of the null hypothesis and the y coordinates to the empirical one of the sample. If they are similar it will look like the function $x=y$. Additionally, can be used to compare if a distribution has heavier or lighter tails in comparison to another distribution.
+
+\end{block} 
+
+\begin{block}{Bayesian inference}
+
+The Bayesian inference take a different approach in comparison to classical (frequentist) statistics. Now the parameters trying to estimate pass from being constants to a random variables. This allow us to reflect a belief that the parameters have a higher probability to be in particular ranges. For this a probability distribution is chosen called the prior. After sampling the data we combined the likelihood of this data with the prior and optimizing this function using MAP (Maximum A Posteriori) or posterior mean. The former is similar to MLE but including the prior and the second one computes the mean of the posterior distribution.
+\newline \newline
+Usually we don't have information about the parameter. For that we can choose the non informative priors. One usually used is the constant prior that defines a uniform distribution, but when the parameter in unbounded is considered a improper prior as doesn't fulfill the required axiom that the total probability sums to 1. Although, doesn't comply with that axiom can be used anyway. The other prior usually used is Jeffreys prior. It is defined in the following way:
+
+\begin{align*}
+    \pi_J(\theta) \propto \sqrt{\det I(\theta)}
+\end{align*}
+
+Where $I(\theta)$ is the Fisher Information of the parameter $\theta$. The principal advantage of Jeffreys prior is that invariant under reparametrization. That means if we apply a function to the parameter the Jeffreys prior can be obtained passing as a parameter the new reparametrization.
+\newline \newline
+The concept of confidence intervals change a bit in Bayesian settings. The Bayesian confidence regions is defined as follows:
+
+\begin{align*}
+    P[\theta \in R| X_1,\ldots, X_n] = 1 - \alpha
+\end{align*}
+
+That means that the value of the parameter $\theta$ has a probability of $1 - \alpha$ to lie in the subregion $R$. That claim cannot be done in frequentist confidence intervals because as the parameter is a constant is in or out of the region, but cannot have a probability of being in or out.
+
+\end{block}
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Linear regression}
+
+The regression function $f(x)$ is defined as: $y = a + bx$ for two random variables $X$ and $Y$. The optimal values for $a$ and $b$ that reduces the lost (using mean square loss) are:
+
+\begin{align*}
+    b = \frac{cov(X,Y)}{var(X)}
+\end{align*}
+
+\begin{align*}
+    a = \mathbb{E}[Y] - \frac{cov(X,Y)}{var(X)}\mathbb{E}[X]
+\end{align*}
+
+Normally, we won't have a exactly fit. The error is defined as $\epsilon = Y - (a + bX)$. Thus, it is a random variable that must fulfill the following conditions:
+
+\begin{align*}
+   \mathbb{E}[\epsilon]  = 0 \\
+   cov(X,\epsilon) = 0
+\end{align*}
+
+If $X$ has several dimensions (usually have a extra dimension with all values equal to 1 to represent $a$) an estimator $\beta$ can be computed using the following formula:
+
+\begin{align*}
+    \beta = (X^T X)^{-1} X^T Y
+\end{align*}
+
+To perform inference is needed that the $X$ is deterministic, with the same rank ($p$) as the length of the estimator, the errors are i.i.d and the noise vector is Gaussian with no correlations between errors and the same variance. The distribution of the estimator $\beta$ is:
+
+\begin{align*}
+    \mathcal{N}(B^*, \sigma^2 (X^T X)^{-1})
+\end{align*}
+
+Being the unbiased estimator of $\sigma^2 = \frac{1}{n-p} \lVert Y - X\beta \rVert_2^2$.
+
+\end{block}
+
+\begin{block}{Generalized linear models}
+
+The GLMs allow to generalize regression models in the following ways:
+
+\begin{align*}
+    Y | X = x \sim \text{some probability distribution}
+\end{align*}
+
+or 
+
+\begin{align*}
+    g(\mu(x)) = x^T \beta
+\end{align*}
+
+Where $\mu(x)$ is the expected value of $Y$ conditioned on a particular $x$ and $g$ is the link function. The exponential family are the probability distributions that can be put in the following form:
+
+\begin{align*}
+    f_\theta(y) = e^{\eta(\theta)T(y) - B(\theta)} h(y)
+\end{align*}
+
+Works for several dimension and many usual distribution like normal, exponential, Poisson, Bernoulli etc. can be put in this framework. Additionally, there is the canonical exponential family that follows the following framework:
+
+\begin{align*}
+    f_\theta(y) = e^{\frac{y\theta - b(\theta)}{\phi} + c(y, \phi)}
+\end{align*}
+
+With this framework $b'(\theta) = \mu$ where $\mu$ is the conditioned expected value. So, in this way the parameter can be obtained from the conditioned expected value. The log-likelihood using the canonical link function becomes:
+
+\begin{align*}
+    l_n(Y, X, \beta) = \sum_i \frac{Y_i X_i^T \beta - b(X_i^T \beta)}{\phi}
+\end{align*}
+
+With this log-likelihood is strictly concave when $\phi > 0$ implying that the MLE is unique. If other parameterization is used could be several local maxima. The asymptotic normality of MLE also applies to GLMs.
+
+\end{block} 
+
+\end{column}
+\end{columns}
+\end{document}

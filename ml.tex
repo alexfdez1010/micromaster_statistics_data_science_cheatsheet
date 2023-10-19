@@ -1,0 +1,403 @@
+\documentclass{beamer}
+\usetheme{Copenhagen}
+\usepackage[orientation=landscape,size=a4,scale=0.7]{beamerposter}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{ccicons}
+
+\DeclareUnicodeCharacter{2005}{\hspace{0em}}
+
+\title{Machine Learning cheatsheet - MITx Micromaster in Statistics and Data Science}
+\author{Alejandro Fernández Camello}
+\date{\vspace{-100pt}}
+
+\setbeamertemplate{navigation symbols}{}
+\usecolortheme[named=purple]{structure}
+
+\begin{document}
+\begin{frame}
+
+\maketitle
+
+\begin{columns}
+
+\begin{column}{0.3\textwidth}
+\begin{block}{What is Machine Learning?}
+
+Machine learning is a subfield of computer science that enables computers to learn from data. Instead of being explicitly programmed to perform tasks, algorithms adapt and improve through experience. 
+
+\begin{enumerate}
+    \item Supervised Learning: The algorithm learns from labeled data, and makes predictions based on that. It's like a student learning under a teacher's guidance. Used in classification and regression tasks.
+    \item Unsupervised Learning: No labels are given to the algorithm, allowing it to find structure in its input on its own. Good for clustering and association.
+    \item Reinforcement Learning: The algorithm learns to perform actions to achieve a goal, like a player in a game. It learns from rewards and penalties.
+    \item Semi-supervised Learning: Combines both labeled and unlabeled data for training. Offers a middle-ground between supervised and unsupervised learning.
+    \item Ensemble Learning: Uses multiple learning algorithms to get better predictive performance. Think of it as a team of experts working together.
+    \item Deep Learning: A subset of ML focused on algorithms inspired by the structure and function of the brain called artificial neural networks. Excels in complex tasks like image and speech recognition.
+\end{enumerate}
+    
+\end{block}
+
+\begin{block}{Perceptron}
+
+A dataset $\{ (x^{(i)},y^{(i)}, i = 1, \dots , n\}$ is linearly separable if there exists a parameter vector $\hat{\theta}$ and offset parameter $\hat{\theta_0}$ such that $y^{(i)}(\hat{\theta} x^{(i)} + \hat{\theta}_0) > 0$ for all $1, \dots, n$.
+
+The most simple model that can be used is the perceptron. The model is formed by $\hat{\theta}$ and $\hat{\theta_0}$. The training algorithm to obtain the values of their parameters is the following:
+
+\begin{align*}
+    \theta &:= \theta + y^{(i)}x^{(i)} \\
+    \theta_0 &:= \theta_0 + y^{(i)}
+\end{align*}
+
+Those updates are only performed if the following condition is fulfilled: $y^{(i)}(\hat{\theta} x^{(i)} + \hat{\theta}_0) \leq 0$. This is performed for each instance of the training dataset and is repeated $T$ times.
+
+\end{block}
+
+\begin{block}{Support Vector Machines}
+
+The Hinge loss is defined in the following way:
+
+\begin{align*}
+    \text{Loss}_h(x) = \max(0, 1 - x)
+\end{align*}
+
+The objective function for Support Vector Machines is:
+
+\begin{align*}
+    J(\theta, \theta_0) = \frac{1}{n} \sum^n_{i=1} \text{Loss}_h(y^{(i)}(\theta x^{(i)} + \theta_0)) + \frac{\lambda}{2} \lVert \theta \rVert^2
+\end{align*}
+
+Where right part correspond to regularization (L2) and $\lambda$ specifies how important is the regularization part in the loss. The goal is to minimize the previous objective function. In the case the problem is linearly separable the first part of the loss function must be zero and we minimize according to the second part. Thus, the first part is a constraint.
+
+In the majority of cases the problem is not going to be linearly separable. in that cases, we apply a non-linear transformation to the features vectors. In that way, we will be able to classify non-linear problems. The most efficient way to compute this new features is using kernels.
+
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Kernels}
+The kernels allows to convert linear methods into kernel methods by casting the computations in terms of inner products. Thus, a kernel function is simply an inner product between two feature vectors. Using the following composite rules all kernels can be derived.
+
+\begin{enumerate}
+    \item $K(x, x') = 1$ is a kernel function
+    \item Let $f : \mathbb{R}^d \leftarrow  \mathbb{R}$ and $K(x, x')$ is a kernel, then $f(x)K(x, x')f(x')$ is also a kernel.
+    \item The sum of two kernels is also a kernel.
+    \item The multiplication of two kernels is also a kernel.
+\end{enumerate}
+
+\end{block}
+
+\begin{block}{Linear regression}
+
+Linear regression aims to model the relationship between a dependent variable $y$ and one or more independent variables $X$ by fitting a linear equation to the observed data. The simplest form of linear regression is the least squares method, where the objective is to minimize the sum of the squares of the differences between observed and predicted values.
+
+\[
+\text{Minimize: } J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
+\]
+
+where $h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \ldots + \theta_n x_n$, $m$ is the number of data points, and $\theta$ is the parameter vector.
+
+The closed-form solution, often called the normal equation, for linear regression is:
+
+\[
+\theta = (X^T X)^{-1} X^T y
+\]
+
+The perceptron algorithm, on the other hand, is an iterative algorithm used for finding the weights that separate the data into different classes. For linear regression, it can be adapted to minimize the sum of squared errors.
+
+The update rule for the weights in the perceptron algorithm is:
+
+\[
+\theta := \theta + \alpha(y^{(i)} - h_\theta(x^{(i)})) x^{(i)}
+\]
+
+Here, $\alpha$ is the learning rate.
+
+\end{block}
+
+\begin{block}{Collaborative filtering}
+
+Collaborative Filtering is a technique used in recommendation systems. The idea is to fill in the missing entries of a user-item association matrix. Let's denote the matrix by $R \in \mathbb{R}^{m \times n}$, where $m$ is the number of users, and $n$ is the number of items. An entry $r_{ij}$ in $R$ is the rating given by user $i$ to item $j$. One of the most common methods is matrix factorization. Here, the matrix $R$ is factorized into two matrices $U$ and $V^T$ such that:
+\[
+R \approx U V^T
+\]
+Subsequently, predictions can be made using these matrices to fill the unknown values in the original matrix. to solve this problem we apply alternating minimization where we start with two guesses for $U$ and $V$, and in each step we minimize one pf them alternating. The formula to minimize is: 
+
+\[
+J = \sum _{(a,i) \in D} \frac{(Y_{ai} - \big [UV^ T\big ]_{ai})^2}{2} + \frac{\lambda }{2} \left(\sum _{a,k} U_{ak}^2 + \sum _{i,k} V_{ik}^2\right).
+\]
+
+\textbf{Update for \( U \):}
+\[
+U_{ak} \leftarrow U_{ak} - \alpha \left( -\sum_{(a,i) \in D} (Y_{ai} - [UV^T]_{ai}) V_{ik} + \lambda \sum _{a,k} U_{ak} \right)
+\]
+
+\textbf{Update for \( V \):}
+\[
+V_{ik} \leftarrow V_{ik} - \alpha \left( -\sum_{(a,i) \in D} (Y_{ai} - [UV^T]_{ai}) U_{ak} + \lambda \sum_{i,k}  V_{ik} \right)
+\]
+
+where \( \alpha \) is the learning rate.
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Neural networks}
+
+A neural network is a computational model designed to simulate the behavior of the human brain for tasks like pattern recognition, classification, and prediction. Mathematically, a neural network can be represented as a composition of functions.
+
+\[
+y = f^{(L)} \circ f^{(L-1)} \circ \cdots \circ f^{(1)}(x)
+\]
+
+where \( f^{(i)} \) is the transformation performed by the \( i \)-th layer, \( L \) is the number of layers, \( x \) is the input, and \( y \) is the output.
+
+A single layer's transformation can usually be represented as:
+
+\[
+a^{(i)} = W^{(i)} x^{(i-1)} + b^{(i)}
+\]
+\[
+z^{(i)} = \sigma(a^{(i)})
+\]
+
+where \( W^{(i)} \) is the weight matrix, \( b^{(i)} \) is the bias vector, \( \sigma \) is an activation function, \( a^{(i)} \) is the pre-activation, and \( z^{(i)} \) is the post-activation.
+
+The performance of a neural network is often evaluated using a loss function \( \mathcal{L}(y, \hat{y}) \), where \( y \) is the true label and \( \hat{y} \) is the predicted label. One common loss function used is the Cross Entropy Loss defined in the following way:
+
+\[
+\mathcal{L}(y, \hat{y}) = -\left( y \log(\hat{y}) + (1 - y) \log(1 - \hat{y}) \right)
+\]
+
+Backpropagation is the process used to minimize the loss function by updating the weights and biases in the neural network. The algorithm consists of two main steps: the forward pass and the backward pass.
+
+During the forward pass, the input \( x \) is propagated through the network to compute the output \( \hat{y} \) and the loss \( \mathcal{L} \). In the backward pass, the gradient of the loss function with respect to each weight and bias is computed. For a weight \( W_{jk}^{(i)} \) in layer \( i \):
+
+\[
+\frac{\partial \mathcal{L}}{\partial W_{jk}^{(i)}} = \frac{\partial \mathcal{L}}{\partial a_j^{(i)}} \cdot \frac{\partial a_j^{(i)}}{\partial W_{jk}^{(i)}}
+\]
+
+These gradients are then used to update the weights and biases using a learning rate \( \alpha \):
+
+\[
+W^{(i)} = W^{(i)} - \alpha \frac{\partial \mathcal{L}}{\partial W^{(i)}}
+\]
+\[
+b^{(i)} = b^{(i)} - \alpha \frac{\partial \mathcal{L}}{\partial b^{(i)}}
+\]
+
+\begin{itemize}
+    \item \textbf{Stochastic Gradient Descent (SGD)}: Performs one update for each example. It is noisy and unstable, making it prone to escaping local minima.
+    \item \textbf{Batch Gradient Descent (BGD)}: Computes one update for the entire dataset. While it provides stability, it demands significant computational resources and often struggles to escape local minima.
+    \item \textbf{Mini-Batch Gradient Descent (MBGD)}: Utilizes a small random subset of the dataset. MBGD strikes a balance between the previous methods, offering stability and the ability to escape local minima. It also facilitates parallelism.
+\end{itemize}
+
+\end{block} 
+
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Reinforcement learning}
+
+In reinforcement learning, an agent interacts with an environment to achieve a certain goal. The environment is typically modeled as a Markov Decision Process (MDP), defined by a tuple $(S, A, T, R)$, where:
+
+\begin{enumerate}
+    \item \( S \) is the set of states.
+    \item \( A \) is the set of actions.
+    \item \( T: S \times A \times S \rightarrow [0, 1] \) is the transition function. \( T(s, a, s') \) represents the probability of transitioning from state \( s \) to state \( s' \) under action \( a \).
+    \item \( R: S \times A \times S \rightarrow \mathbb{R} \) is the reward function. \( R(s, a, s') \) is the reward obtained when transitioning from state \( s \) to state \( s' \) by taking action \( a \).
+\end{enumerate}
+
+The utility function \( U: S \rightarrow \mathbb{R} \) assigns a real value to each state, which represents the expected cumulative reward from that state onward. The utility of each state \( s \) can be calculated through the Bellman equation as follows:
+
+\[
+U(s) = R(s) + \gamma \sum_{s' \in S} T(s, a, s') U(s')
+\]
+
+Here \( \gamma \) is the discount factor (\( 0 \leq \gamma < 1 \)), \( R(s) \) is the immediate reward for being in state \( s \), and the sum iterates through all possible next states \( s' \). In Q-Learning, we define a Q-value function \( Q: S \times A \rightarrow \mathbb{R} \) that represents the quality or the utility of taking action \( a \) in state \( s \). The Q-values can be updated iteratively using the following equation:
+
+\[
+Q(s, a) \leftarrow (1 - \alpha) Q(s, a) + \alpha \left[ R(s, a, s') + \gamma \max_{a'} Q(s', a') \right]
+\]
+
+Here \( \alpha \) is the learning rate (\( 0 < \alpha \leq 1 \)), and \( \max_{a'} Q(s', a') \) is the maximum Q-value attainable from the next state \( s' \).
+
+\end{block} 
+
+\begin{block}{Convolutional neural networks}
+
+Convolutional Neural Networks (CNNs) are specialized deep learning models designed for processing grid-structured data, most commonly images. The primary operations in a CNN are 2D convolution and pooling. A 2D Convolutional layer takes an input tensor of shape $(H, W, C)$ where $H$ is the height, $W$ is the width, and $C$ is the number of channels. The layer uses a filter (also known as a kernel) of shape $(F_H, F_W, C)$ to produce an output tensor of shape $(H_{\text{out}}, W_{\text{out}}, C_{\text{out}})$. The convolution operation is defined as:
+
+\[
+O(x, y) = \sum_{i=-m}^{m} \sum_{j=-n}^{n} I(x+i, y+j) \times K(i, j)
+\]
+Where $O$ is the output pixel at coordinates $(x, y)$, $I$ is the input image, and $K$ is the kernel. $m$ and $n$ are half the dimensions of the kernel.
+
+Stride ($S$) is the step size for moving the kernel across the image. Padding ($P$) refers to the number of zero-padding pixels added to the border of the input image. These affect the output dimensions as follows:
+
+\[
+H_{\text{out}} = \left\lfloor \frac{H + 2 \times P - F_H}{S} \right\rfloor + 1
+\]
+\[
+W_{\text{out}} = \left\lfloor \frac{W + 2 \times P - F_W}{S} \right\rfloor + 1
+\]
+
+Pooling layers reduce the spatial dimensions of the input tensor and are usually applied after convolutional layers. The most common types are Max Pooling and Average Pooling. Max Pooling selects the maximum value from each region of the input tensor, meanwhile Average Pooling calculates the average value from each region of the input tensor. Both pooling methods use a window of size $(P_H, P_W)$ and typically have a stride equal to the window size to avoid overlapping regions.
+
+\end{block} 
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Recurrent neural networks}
+
+Recurrent Neural Networks (RNNs) are a class of neural networks designed to handle sequential data. The core idea is to maintain a hidden state $h_t$ that gets updated at each time step $t$.
+
+\[
+h_t = f(W_x x_t + W_h h_{t-1} + b)
+\]
+
+where $x_t$ is the input at time $t$, $W_x$ and $W_h$ are the weight matrices, $b$ is the bias, and $f$ is an activation function such as tanh or ReLU.
+
+LSTMs are a specialized kind of RNN that are designed to mitigate the vanishing gradient problem. The LSTM maintains a cell state $C_t$ along with the hidden state $h_t$. It introduces three gates: 
+
+\begin{itemize}
+    \item \textbf{Forget gate} $f_t$: 
+    \[
+    f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)
+    \]
+    
+    \item \textbf{Input gate} $i_t$ and \textbf{candidate values} $\tilde{C}_t$:
+    \[
+    i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)
+    \]
+    \[
+    \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
+    \]
+    
+    \item \textbf{Output gate} $o_t$:
+    \[
+    o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
+    \]
+\end{itemize}
+
+The cell state and hidden state are updated as ($\odot$ is the element-wise multiplication):
+
+\[
+C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t
+\]
+\[
+h_t = o_t \odot \tanh(C_t)
+\]
+
+GRUs are a simplified version of LSTMs that combine the hidden state and cell state into a single hidden state $h_t$. GRUs have two gates:
+
+\begin{itemize}
+    \item \textbf{Update gate} $z_t$:
+    \[
+    z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z)
+    \]
+    
+    \item \textbf{Reset gate} $r_t$:
+    \[
+    r_t = \sigma(W_r \cdot [h_{t-1}, x_t] + b_r)
+    \]
+\end{itemize}
+
+The hidden state is updated as:
+
+\[
+h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tanh(W \cdot [r_t \odot h_{t-1}, x_t] + b)
+\]
+
+LSTMs and GRUs are commonly used in tasks that require the understanding of long-range dependencies in sequential data, such as language modeling, machine translation, and time-series analysis.
+
+\end{block}
+
+\begin{block}{References}
+    \begin{itemize}
+        \item Notes of \textit{16.86x of Machine Learning with Python-From Linear Models to Deep Learning} offer by MITx in the year 2023.
+    \end{itemize}
+\end{block}
+
+\begin{block}{License}
+This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International}. \ccbyncsa
+\end{block}
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\begin{block}{Clustering}
+
+Clustering is the process of partitioning a dataset into subsets (clusters) such that elements within the same cluster are more similar to each other than to those in other clusters. Mathematically, consider a set of observations \( \mathbf{X} = \{ \mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_N \} \), where each \( \mathbf{x}_i \) is a \( d \)-dimensional vector. The goal is to partition \( \mathbf{X} \) into \( K \) clusters \( C = \{ C_1, C_2, \ldots, C_K \} \).
+
+The K-Means algorithm aims to minimize the within-cluster sum of squares (WCSS):
+
+\[
+\text{WCSS} = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \left\| \mathbf{x}_i - \mathbf{\mu}_k \right\|^2
+\]
+
+Here, \( \mathbf{\mu}_k \) is the centroid of cluster \( C_k \), defined as the mean of the vectors in \( C_k \):
+
+\[
+\mathbf{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i
+\]
+
+The algorithm iteratively assigns each data point \( \mathbf{x}_i \) to the nearest centroid and updates the centroid based on the points assigned to it. Other algorithms used in clustering are: 
+
+\begin{itemize}
+    \item \textbf{K-Medoids}: Instead of mean vectors, K-Medoids uses actual data points as cluster centers to minimize the sum of pairwise dissimilarities.
+    \item \textbf{Agglomerative Hierarchical Clustering}: This is a bottom-up approach that starts with each point as a single cluster and merges the closest clusters at each step.
+    \item \textbf{DBSCAN (Density-Based Spatial Clustering of Applications with Noise)}: Groups together points that are closely packed in the feature space, allowing for irregularly shaped clusters.
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Mixture models and Estimate-Maximization Algorithm}
+
+A mixture model is a probabilistic model that represents the presence of sub-populations within an overall population, without requiring that an observed data point must belong to one sub-population. Mathematically, a mixture model is defined as a weighted sum of $K$ component distributions:
+
+\[
+p(\mathbf{x}) = \sum_{k=1}^{K} \pi_k p_k(\mathbf{x} | \boldsymbol{\theta}_k)
+\]
+
+where $\mathbf{x}$ is a data point, $K$ is the number of components, $\pi_k$ are the mixture coefficients satisfying $\sum_{k=1}^{K} \pi_k = 1$, and $p_k(\mathbf{x} | \boldsymbol{\theta}_k)$ are the component distributions with parameters $\boldsymbol{\theta}_k$.
+
+The EM algorithm is used to find the maximum likelihood estimates of the parameters in a statistical model when the model depends on unobserved latent variables. It alternates between two steps:
+
+\begin{enumerate}
+    \item \textbf{Expectation (E-step)}: Calculate the expected value of the log-likelihood function, given the current estimates of the parameters.
+    
+    \[
+    Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{(t)}) = \mathbb{E}_{\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}^{(t)}}\left[\log p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta})\right]
+    \]
+    
+    \item \textbf{Maximization (M-step)}: Update the parameter estimates to maximize this function.
+    
+    \[
+    \boldsymbol{\theta}^{(t+1)} = \arg\max_{\boldsymbol{\theta}} Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{(t)})
+    \]
+\end{enumerate}
+
+The algorithm starts with initial guesses for the parameters $\boldsymbol{\theta}$ and iterates between the E-step and M-step until convergence. The EM algorithm is widely used for clustering, density estimation, and other tasks where the data has a latent structure.
+
+\end{block} 
+
+\end{column}
+\end{columns}
+\end{document}

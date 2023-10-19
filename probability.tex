@@ -1,0 +1,236 @@
+\documentclass{beamer}
+\usetheme{Copenhagen}
+\usepackage[orientation=landscape,size=a4,scale=1]{beamerposter}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{ccicons}
+
+\DeclareUnicodeCharacter{2005}{\hspace{0em}}
+
+\title{Probability cheatsheet}
+\author{Alejandro Fernández Camello}
+\date{}
+
+\setbeamertemplate{navigation symbols}{}
+
+\definecolor{copenhagenBlue}{rgb}{0.2, 0.2, 0.7}
+
+\arrayrulecolor{copenhagenBlue}
+
+\begin{document}
+\begin{frame}
+
+\maketitle
+
+\begin{columns}
+
+\begin{column}{0.3\textwidth}
+\begin{block}{Probability axioms}
+
+Axioms:
+
+\begin{enumerate}
+    \item For any event $A$, $0 \leq P(A) \leq 1$.
+    \item $P(S) = 1$, where $S$ is the sample space.
+    \item For any countable sequence of mutually exclusive (or disjoint) events $A_1, A_2, A_3, \ldots$:
+    \begin{align*}
+        P\left( \bigcup_{i=1}^{\infty} A_i \right) = \sum_{i=1}^{\infty} P(A_i)
+    \end{align*}
+\end{enumerate}
+
+Properties:
+
+\begin{itemize}
+    \item if $A \in B$, then $P(A) \leq P(B)$.
+    \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+    \item $P(A \cup B) \leq P(A) + P(B)$
+    \item $P(A \cup B \cup C) = P(A) + P(A^c \cap B) + P(A^c \cap B^c \cap C)$
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Conditioning and independence}
+
+The conditional probability is defined in the following way:
+
+\begin{align*}
+    P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+\end{align*}
+
+with $P(B) > 0$. Substituting $P(A \cap B)$ by $P(A)P(B \mid A)$ gives the Bayes's rule.
+
+Independence:
+
+\begin{itemize}
+    \item Two events $A$ and $B$ are independent if $P(A \cap B) = P(A)P(B)$.
+    \item Two events $A$ and $B$ are conditionally independent given another event $C$ with $P(C) > 0$ if $P(A \cap B \mid C) = P(A \mid C)P(B \mid C)$.
+    \item Given events $A_1, A_2, \ldots, A_n$, they are independent if
+    \begin{align*}
+        P(\bigcap_{i \in S} A_i) = \prod_{i \in S} P(A_i), \text{for every subset } S \text{ of } \{1, 2, \ldots, n\}.
+    \end{align*}
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Counting}
+
+\begin{itemize}
+    \item Permutations of $n$ objects: $n!$.
+    \item Permutations of $k$ objects from a pool of $n$ objects: $\frac{n!}{(n - k)!}$
+    \item Combinations of $k$ out of $n$ objects: $\frac{n!}{k!(n-k)!}$
+    \item Partitions of $n$ objects into $r$ groups, with the $i$ group having $k_i$, objects:
+        \begin{align*}
+            \frac{n!}{\prod_{i=1}^r k_i!}
+        \end{align*}
+\end{itemize}
+
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\begin{block}{Random variables}
+
+A random variable is a function that assigns a real number to each outcome in a sample space of a probabilistic experiment. A random variable's distribution can be defined by its PDF (Probability Distribution Function) (or PMF (Probability Mass Function) if it's discrete) and its CDF (Cumulative Distribution Function). The PDF ($f_X(x)$) of a random variable $X$ must fulfill the following conditions (for the PMF are the same, but adapted to discrete environments).
+
+\begin{enumerate}
+    \item $\int_{-\infty}^{\infty} f_X(x) \,dx = 1$
+    \item $f_X(x) \geq 0 \text{,} \forall x \in \mathbb{R}$
+    \item For any subset of $B$ of the real line:
+    \begin{align*}
+        P(X \in B) = \int_B f_X(x) \,dx
+    \end{align*}
+\end{enumerate}
+
+The PMF ($P_X(x)$) additionally have to satisfy $P_X(x) \leq 1 \text{,} \forall x \in \mathbb{R}$. The CDF ($F_X(x)$) is defined in the following way:
+
+\begin{align*}
+    F_X(x) = P(X \leq x) = \int_{-\infty}^{x} f_X(t) \,dt
+\end{align*}
+
+\end{block}
+
+\begin{block}{Expectation and variance}
+
+The expectation or expected value of a random variable is defined in the following way:
+
+\begin{align*}
+    \mathbb{E}[X] = \int_{-\infty}^{\infty} Xf_X(x) \, dx
+\end{align*}
+
+The expectation can be generalized to a function $g(X)$:
+
+\begin{align*}
+    \mathbb{E}[g(X)] = \int_{-\infty}^{\infty} g(x)f_X(x) \,dx
+\end{align*}
+
+The variance is defined using the expectation:
+
+\begin{align*}
+    Var(X) = \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - \mathbb{E}[X]^2
+\end{align*}
+
+Properties:
+
+$a$, $b$ and $c$ are real numbers and $X$ and $Y$ are random variables.
+
+\begin{itemize}
+    \item $\mathbb{E}[aX + bY + c] = a\mathbb{E}[X] + b\mathbb{E}[Y] + c$
+    \item $Var(aX + b) = a^2Var(X)$
+\end{itemize}
+
+If $X$ and $Y$ are independent, then:
+
+\begin{itemize}
+    \item $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$
+    \item $\mathbb{E}[f(X)h(Y)] = \mathbb{E}[f(X)]\mathbb{E}[h(Y)]$
+    \item $Var(X + Y) = Var(X) + Var(Y)$
+\end{itemize}
+
+\end{block}
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\begin{block}{Derived distributions, covariance and correlation}
+A derived distribution is defined as $Y = g(X)$. To get the derived distribution from $X$ the following steps should be used:
+
+\begin{align*}
+   F_Y(y) = P(g(X) \leq y) = \int_{\{x \mid g(x) \leq y\}}  f_X(x) \,dx
+\end{align*}
+
+After obtaining the CDF, obtain the PDF using derivatives:
+
+\begin{align*}
+    f_Y(y) = \frac{dF_y}{dy}(y)
+\end{align*}
+
+If $Y$ is a linear combination of $X$ ($Y = aX + b$, where $a$ and $b$ are real numbers and $a \neq 0$), then the PDF can be obtained directly using the following formula:
+
+\begin{align*}
+    f_Y(y) = \frac{1}{|a|} f_X(\frac{y - b}{a})
+\end{align*}
+
+Additionally, if $g(x)$ is strictly monotonic and exists a function $x = h(y)$ for all range $X$, then the PDF $f_Y(y)$ in the non-zero region is:
+
+\begin{align*}
+    f_Y(y) = f_X(h(y))\abs{\frac{dh}{dy}(y)}
+\end{align*}
+
+The covariance of two random variables $X$ and $Y$ is defined in the following way:
+
+\begin{align*}
+    cov(X, Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+\end{align*}
+
+If $cov(X, Y) = 0$, then the two variables are uncorrelated. If they are independent, they are uncorrelated, but the inverse is not always true. The correlation coefficient ($\rho(X, Y)$ is always in the range $[-1,1]$) of two random variables $X$ and $Y$ is:
+
+\begin{align*}
+    \rho(X, Y) = \frac{cov(X, Y)}{\sqrt{var(X)var(Y)}} 
+\end{align*}
+
+\end{block} 
+
+\begin{block}{References}
+    \begin{itemize}
+        \item Bertsekas, Dimitri, and John N. Tsitsiklis. \textit{Introduction to probability}. Vol. 1. Athena Scientific, 2008.
+        \item Wasserman, Larry. \textit{All of statistics: a concise course in statistical inference.} Vol. 26. New York: Springer, 2004.
+    \end{itemize}
+\end{block}
+
+\begin{block}{License}
+This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International}. \ccbyncsa
+\end{block}
+
+\end{column}
+
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{lcccccccc}
+            \rowcolor{copenhagenBlue} \textcolor{white}{Distribution} & \textcolor{white}{Parameter 1} & \textcolor{white}{Parameter 2} & \textcolor{white}{PDF} & \textcolor{white}{CDF} & \textcolor{white}{Mean} & \textcolor{white}{Variance} & \textcolor{white}{Fisher} & \textcolor{white}{When to use} \\
+            \rowcolor{copenhagenBlue!30} Normal & $\mu$ & $\sigma^2$ & $\frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ & $\Phi\left(\frac{x-\mu}{\sigma}\right)$ & $\mu$ & $\sigma^2$ & $\frac{1}{\sigma^2}$ & For continuous data; central limit theorem. \\
+            Exponential & $\lambda$ & - & $\lambda e^{-\lambda x}$ & $1-e^{-\lambda x}$ & $\frac{1}{\lambda}$ & $\frac{1}{\lambda^2}$ & $\lambda^2$ & Time between continuously occurring events. \\
+            \rowcolor{copenhagenBlue!30} Shifted Exponential & $\lambda$ & $b$ & $\lambda e^{-\lambda (x-b)}$ for $x>b$ & $1-e^{-\lambda (x-b)}$ for $x>b$ & $\frac{1}{\lambda}+b$ & $\frac{1}{\lambda^2}$ & - & Exponential shifted by \( b \) units. \\
+            Gamma & $k$ & $\theta$ & $\frac{x^{k-1}e^{-x/\theta}}{\theta^k\Gamma(k)}$ & - & $k\theta$ & $k\theta^2$ & Varies & Sum of exponential distributions. \\
+            \rowcolor{copenhagenBlue!30} Cauchy & $x_0$ & $\gamma$ & $\frac{1}{\pi\gamma[1+(\frac{x-x_0}{\gamma})^2]}$ & $\frac{1}{\pi}\arctan(\frac{x-x_0}{\gamma})+\frac{1}{2}$ & undefined & undefined & - & Heavy-tailed data; ratio of independent normals. \\
+            Beta & $\alpha$ & $\beta$ & $\frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)}$ & - & $\frac{\alpha}{\alpha+\beta}$ & $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ & - & Random behavior with known endpoints. \\
+            \rowcolor{copenhagenBlue!30} Uniform & $a$ & $b$ & $\frac{1}{b-a}$ & $\frac{x-a}{b-a}$ & $\frac{a+b}{2}$ & $\frac{(b-a)^2}{12}$ & - & Equal likelihood for outcomes in range. \\
+            Max of \( n \) Uniforms & $n$ & - & $nx^{n-1}$ & $x^n$ & $\frac{n}{n+1}$ & $\frac{n}{(n+1)^2(n+2)}$ & - & Maximum of \( n \) independent uniforms. \\
+            \rowcolor{copenhagenBlue!30} Min of \( n \) Uniforms & $n$ & - & $n(1-x)^{n-1}$ & $1-(1-x)^n$ & $\frac{1}{n+1}$ & $\frac{1}{(n+1)^2(n+2)}$ & - & Minimum of \( n \) independent uniforms. \\
+            Binomial & $n$ & $p$ & ${n \choose x}p^x(1-p)^{n-x}$ & - & $np$ & $np(1-p)$ & $\frac{n}{p(1-p)}$ & Fixed number of Bernoulli trials. \\
+            \rowcolor{copenhagenBlue!30} Poisson & $\lambda$ & - & $\frac{\lambda^xe^{-\lambda}}{x!}$ & $e^{-\lambda}\sum_{i=0}^{x}\frac{\lambda^i}{i!}$ & $\lambda$ & $\lambda$ & $\frac{1}{\lambda}$ & Events in fixed interval; rare events. \\
+            Bernoulli & $p$ & - & $p^x(1-p)^{1-x}$ & $1-p$ for $x=0$; 1 for $x=1$ & $p$ & $p(1-p)$ & $\frac{1}{p(1-p)}$ & Single binary trial outcome. \\
+            \rowcolor{copenhagenBlue!30} Geometric & $p$ & - & $(1-p)^{x-1}p$ & $1-(1-p)^x$ & $\frac{1}{p}$ & $\frac{1-p}{p^2}$ & - & Trials until first success. \\
+            Hypergeometric & $N$ & $K, n$ & $\frac{{K \choose x} {N-K \choose n-x}}{{N \choose n}}$ & - & $\frac{nK}{N}$ & $\frac{nK(N-K)(N-n)}{N^2(N-1)}$ & - & Draws without replacement. \\
+        \end{tabular}
+    }
+\end{frame}
+\end{document}
