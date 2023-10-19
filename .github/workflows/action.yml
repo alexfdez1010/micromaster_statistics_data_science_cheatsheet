@@ -35,6 +35,3 @@ jobs:
           probability.pdf
           ml.pdf
         token: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Display Release URL
-      run: echo "Release URL: ${{ steps.release_url.outputs.html_url }}"
