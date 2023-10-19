@@ -13,10 +13,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up LaTeX
-      uses: xu-cheng/latex-action@v2
+    - uses: xu-cheng/latex-action@v3
       with:
-        root_file: main.tex # Change this to your main LaTeX file if needed
+        root_file: |
+          statistics.tex
+          probability.tex
+          ml.tex
 
     - name: Build PDFs
       run: |
@@ -28,10 +30,10 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        files:
-          - statistics.pdf
-          - probability.pdf
-          - ml.pdf
+        files: |
+          statistics.pdf
+          probability.pdf
+          ml.pdf
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Get Release URL
