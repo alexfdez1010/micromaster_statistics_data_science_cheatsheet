@@ -25,6 +25,7 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
+        if: startsWith(github.ref, 'refs/tags/')
         files: |
           statistics.pdf
           probability.pdf
