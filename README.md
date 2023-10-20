@@ -15,7 +15,7 @@ Simply clone this repository or download the cheatsheets to have a quick referen
 We welcome all contributions! If you'd like to make any improvement, feel free to open a pull request.
 
 ## Found an Error? 🐞
-Oops! If you find any errors or inconsistencies, please notify us by opening an issue on GitHub. Your feedback helps make this resource better for everyone.
+Oops! If you find any errors or inconsistencies, please notify me by opening an issue on GitHub. Your feedback helps make this resource better for everyone.
 
 ## Note 📝
 Even if you're not enrolled in the Micromaster in Statistics and Data Science program, these cheatsheets can still serve as an excellent reference!
