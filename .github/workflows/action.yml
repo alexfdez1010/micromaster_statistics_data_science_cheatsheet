@@ -21,11 +21,11 @@ jobs:
           probability.tex
           ml.tex
 
-    - name: Create Release
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        file: "*.pdf"
-        tags: false
-        draft: false
+    - name: Install GitHub CLI
+      run: sudo apt install -y gh
+
+    - name: Authenticate GitHub CLI
+      run: gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Release and Upload Multiple PDFs
+      run: gh release create v1.0.0 ./statistics.pdf ./probability.pdf ./ml.pdf --title "First release" --notes "First release of the cheatsheets"
