@@ -9,7 +9,7 @@ Welcome to this repository! I have create cheatsheets for the final exams in the
 - **Machine Learning Cheatsheet** 🤖
 
 ## How to Use 🛠️
-Simply clone this repository or download the cheatsheets to have a quick reference guide at your fingertips! You can find the PDFs in the release section. You will need LaTeX if you wnat to compile the PDFs.
+Simply clone this repository or download the cheatsheets to have a quick reference guide at your fingertips! You can find the PDFs in the release section. You will need LaTeX if you want to compile the PDFs.
 
 ## Contributions 🙏
 We welcome all contributions! If you'd like to make any improvement, feel free to open a pull request.
